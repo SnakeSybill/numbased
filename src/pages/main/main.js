@@ -7,8 +7,6 @@ import { Picker } from '@react-native-community/picker';
 import SimpleLayout from '../simpleLayout/simpleLayout';
 import styles from './styles';
 
-const multiple = 'list';
-const simple = 'rocket';
 const fullArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
 
 const Home = () => {
@@ -18,9 +16,8 @@ const Home = () => {
     { value: 'Octal', label: 'Octal', number: 8 },
     { value: 'Binário', label: 'Binário', number: 2 }
   ];
-  const [currentIcon, setCurrentIcon] = useState(multiple);
 
-  const [valueToConvert, setValueToConvert] = useState('0');
+  const [valueToConvert, setValueToConvert] = useState('');
   const [arrayValidCharacters, setArrayValidCharacters] = useState(fullArray);
   const [selectedBase1, setSelectedBase1] = useState(options[1]);
 
@@ -40,7 +37,7 @@ const Home = () => {
     }
 
     if (!isCompatibleWithBase(valueToConvert)) {
-      setValueToConvert('0');
+      setValueToConvert('');
     }
   }, [selectedBase1]);
 
@@ -52,14 +49,7 @@ const Home = () => {
   return (
     <KeyboardAvoidingView enabled={false} style={styles.container}>
       <View style={styles.elipse} />
-      <View style={styles.header}>
-        <Icon name={currentIcon} size={30} color="white" onPress={() => {
-          if (multiple === currentIcon)
-            setCurrentIcon(simple);
-          else if (simple === currentIcon)
-            setCurrentIcon(multiple);
-        }} />
-      </View>
+
       <View style={styles.main}>
         <View style={styles.field}>
           <View style={styles.selectBase}>
@@ -82,7 +72,9 @@ const Home = () => {
           <View style={styles.textNumberBased}>
             <TextInput
               value={valueToConvert}
+              placeholder={"Digite..."}
               autoCapitalize={'characters'}
+              keyboardType={selectedBase1.value === 'Hexadecimal' ? 'default' : 'numeric'}
               onChangeText={(text) => {
                 if (
                   text === '' ||
