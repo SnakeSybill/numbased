@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, KeyboardAvoidingView, Text, TextInput } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { AdMobBanner } from 'react-native-admob';
 import { Picker } from '@react-native-community/picker';
 
@@ -23,16 +22,16 @@ const Home = () => {
 
   useEffect(() => {
     console.log(selectedBase1);
-    if (selectedBase1 === 'Hexadecimal') {
+    if (selectedBase1.value === 'Hexadecimal') {
       setArrayValidCharacters(fullArray);
     }
-    if (selectedBase1 === 'Decimal') {
+    if (selectedBase1.value === 'Decimal') {
       setArrayValidCharacters(fullArray.slice(0, 10));
     }
-    if (selectedBase1 === 'Octal') {
+    if (selectedBase1.value === 'Octal') {
       setArrayValidCharacters(fullArray.slice(0, 8));
     }
-    if (selectedBase1 === 'Binário') {
+    if (selectedBase1.value === 'Binário') {
       setArrayValidCharacters(fullArray.slice(0, 2));
     }
 
@@ -72,13 +71,14 @@ const Home = () => {
           <View style={styles.textNumberBased}>
             <TextInput
               value={valueToConvert}
+              autoCorrect={false}
               placeholder={"Digite..."}
-              autoCapitalize={'characters'}
+              autoCapitalize = 'none'
               keyboardType={selectedBase1.value === 'Hexadecimal' ? 'default' : 'numeric'}
               onChangeText={(text) => {
                 if (
                   text === '' ||
-                  arrayValidCharacters.includes(text.slice(-1))
+                  arrayValidCharacters.includes(text.slice(-1).toUpperCase())
                 ) {
                   setValueToConvert(text);
                 };
@@ -88,7 +88,7 @@ const Home = () => {
             />
           </View>
         </View>
-            <SimpleLayout baseOrigin={selectedBase1} valueOrigin={parseInt(valueToConvert)} />
+            <SimpleLayout baseOrigin={selectedBase1} valueOrigin={valueToConvert} />
       </View>
 
       <View style={styles.footer}>
